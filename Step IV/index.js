@@ -1,3 +1,25 @@
+function createElement(type, props, ...children) {
+	return {
+		type,
+		props: {
+			...props,
+			children: children.map((child) =>
+				typeof child === 'object' ? child : createTextElement(child)
+			),
+		},
+	};
+}
+
+function createTextElement(text) {
+	return {
+		type: 'TEXT_ELEMENT',
+		props: {
+			nodeValue: text,
+			children: [],
+		},
+	};
+}
+
 function createDom(fiber) {
 	const dom =
 		fiber.type == 'TEXT_ELEMENT'
@@ -15,14 +37,14 @@ function createDom(fiber) {
 }
 
 function render(element, container) {
-	// TODO set next unit of work
-	// root 첫 작업 설정
-	// nextUnitOfWork = {
-	// 	dom: container,
-	// 	props: {
-	// 		children: [element],
-	// 	},
-	// };
+	console.log('render');
+	nextUnitOfWork = {
+		dom: container,
+		props: {
+			children: [element],
+		},
+	};
+	console.log(nextUnitOfWork);
 }
 
 let nextUnitOfWork = null;
@@ -82,3 +104,18 @@ function performUnitOfWork(fiber) {
 		nextFiber = nextFiber.parent;
 	}
 }
+
+const Didact = {
+	createElement,
+	render,
+};
+
+const element = Didact.createElement(
+	'div',
+	null,
+	Didact.createElement('h1', null, 'HelloWorld'),
+	Didact.createElement('h2', null, 'from Didact')
+);
+
+const container = document.getElementById('root');
+Didact.render(element, container);
