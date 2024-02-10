@@ -266,3 +266,14 @@ function workLoop(deadline) {
 }
 
 requestIdleCallback(workLoop);
+
+export function memo(fiber) {
+	const cache = {};
+	return function (...args) {
+		const key = JSON.stringify(args);
+		if (!cache[key]) {
+			cache[key] = fiber.apply(this, args);
+		}
+		return cache[key];
+	};
+}
