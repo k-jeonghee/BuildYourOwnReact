@@ -1,9 +1,9 @@
 const element = {
-	type: 'h1',
-	props: {
-		title: 'foo',
-		children: 'Hello',
-	},
+    type: 'h1',
+    props: {
+        title: 'foo',
+        children: 'Hello',
+    },
 };
 
 const node = document.createElement(element.type);
