@@ -1,6 +1,5 @@
 import { didactState } from '../core';
 
-//[didactState.hookIndex];
 export function useState(initial) {
 	const oldHook =
 		didactState.wipFiber.alternate &&
