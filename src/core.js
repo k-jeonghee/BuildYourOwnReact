@@ -61,10 +61,7 @@ const isGone = (prev, next) => (key) => !(key in next);
 
 function convertStyleObjectToCssString(styleObj) {
 	return Object.entries(styleObj).reduce((acc, [key, value]) => {
-		return (
-			acc +
-			`${key.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)}:${value};`
-		);
+		return acc + `${key.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)}:${value};`;
 	}, '');
 }
 
