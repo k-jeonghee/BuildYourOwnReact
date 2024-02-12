@@ -1,3 +1,5 @@
+import { shallowEqual } from './utils/shallowEqual';
+
 const fiberType = {
 	TextElement: 'TEXT_ELEMENT',
 };
@@ -264,13 +266,16 @@ function workLoop(deadline) {
 
 requestIdleCallback(workLoop);
 
-export function memo(fiber) {
-	const cache = {};
-	return function (...args) {
-		const key = JSON.stringify(args);
-		if (!cache[key]) {
-			cache[key] = fiber.apply(this, args);
+export function memo(component) {
+	let prevProps = null;
+	let prevResult = null;
+
+	return function (...props) {
+		if (prevProps && shallowEqual(prevProps, props)) {
+			return prevResult;
 		}
-		return cache[key];
+		prevProps = props;
+		prevResult = component(...props);
+		return prevResult;
 	};
 }
